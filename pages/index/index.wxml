@@ -17,8 +17,8 @@
         <text class="park-desc">券码扫描</text>
       </view>
       <view class="info" >
-        <text  class="park-show">178****0320</text>
-        <text class="park-desc">白银会员</text>
+        <text  class="park-show">{{member_tel}}</text>
+        <text class="park-desc">{{member_dengji}}</text>
       </view>
     </view>
   </block>
@@ -30,7 +30,6 @@
           <text class="click-text2" >绑定会员尽享停车优惠</text>
           <image class='bind-img' src='/images/tap_right.png' bindtap='tapRule'></image>
         </view>
-       
       </view>
     </view>
   </block>
@@ -50,10 +49,10 @@
           <input type="text" placeholder="请输入4位连续车牌号" confirm-type="search" maxlength="4" bindinput="bindInput" value="{{inputValue}}" placeholder-style="color:#999;font-size:32rpx;"/>
         </view>
         <view class="section-button">
-          <!-- <button wx:if="{{length<4}}"  disabled="true">查询</button>
-          <button wx:elif="{{length >= 4&&hasUserInfo}}" bindtap='toSearch'>查询</button>
-          <button wx:else open-type="getUserInfo" bindgetuserinfo="getUserInfo">查询</button> -->
-           <button bindtap='toSearch'>查询</button>
+           <!-- <button wx:if="{{length<4}}"  disabled="true">查询</button> -->
+          <button wx:if="{{hasUserInfo}}" bindtap='toSearch'>查询</button>
+          <button wx:else open-type="getUserInfo" bindgetuserinfo="getUserInfo" bindtap='toSearch'>查询</button> 
+           <!-- <button bindtap='toSearch'>查询</button> -->
         </view>
       </view>
     </view>
@@ -61,11 +60,19 @@
     <block wx:if="{{history.length>=1}}">
       <view class="pay-quick">
         <view class="vehicle_info" wx:for="{{history}}" bindtap='search_pay' data-text="{{item}}" >
-          <image class='bg-car' src='/images/car1.png'></image>
-          <text>{{item}}</text> 
+          <!-- 车牌模拟 -->
+       
+            <view class="moni2">
+              <text class="moni3"></text>
+              <text class="moni4"></text>
+              <text>{{item}}</text> 
+            </view>
+          <!-- <image class='bg-car' src='/images/car1.png'></image> -->
+    
         </view>
       </view>
     </block>
+  
   </view>
 <!--收费明细  -->
   <view class="pay-info">

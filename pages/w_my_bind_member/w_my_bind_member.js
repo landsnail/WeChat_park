@@ -147,7 +147,7 @@ Page({
         console.log(res)
         if(res.data.code==1001){
           wx.showToast({
-            title: "验证码已发送",
+            title: "验证码已发送，60秒后可重新获取",
             icon: 'success',
             duration: 1500,
           })
@@ -202,15 +202,22 @@ Page({
             title: '绑定成功',
             icon: 'success',
             success:function(res){
-              wx.navigateTo({
-                url: "/pages/w_my_bind_platenumber/w_my_bind_platenumber",
-              })
+              app.globalData.member=true;
+              setTimeout(function () { 
+                wx.navigateTo({
+                  url: "/pages/w_my_bind_platenumber/w_my_bind_platenumber",
+                })
+              },1500) 
+             
             }
           })
         } else {
-          wx.showToast({
-            title: ''+res.data.msg,
-            image: '/images/tishi.png'
+          wx.showModal({
+            title: "绑定失败",
+            content: ""+res.data.msg,
+            confirmColor: "#4fafc9",
+            confirmText: "我知道了",
+            showCancel: false,
           })
         }
       },
