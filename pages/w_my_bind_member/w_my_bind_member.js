@@ -49,7 +49,9 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+    // wx.reLaunch({
+    //   url: "/pages/index/index"
+    // })
   },
 
   /**
@@ -159,10 +161,16 @@ Page({
           })
           that.getCode();
         }else{
-          wx.showToast({
-            title: ''+res.data.msg,
-            icon: 'success',
-            duration:1500
+          wx.showModal({
+            title: "提示",
+            content: "" + res.data.msg,
+            confirmColor: "#4fafc9",
+            confirmText: "我知道了",
+            showCancel: false,
+            success: function (res) {
+              if (res.confirm) {
+              }
+            }
           })
         }
       }
@@ -185,6 +193,10 @@ Page({
   formSubmit: function (e) {
     // console.log('form发生了submit事件，携带数据为：', e.detail.value)
     var that = this
+    wx.showLoading({
+      title: '正在绑定中',
+      mask: true,
+    })
     wx.request({
       url: app.globalData.host + '/wxinfo/authBindSMSText',
       data: {
@@ -197,6 +209,7 @@ Page({
       },
       success: function (res) {
         console.log(res)
+        wx.hideLoading()
         if ((parseInt(res.statusCode) === 200) && res.data.code === 1001) {
           wx.showToast({
             title: '绑定成功',
@@ -222,7 +235,15 @@ Page({
         }
       },
       fail: function (res) {
+        wx.hideLoading()
         console.log(res)
+        wx.showModal({
+          title: "绑定失败",
+          content: "请求超时或出现了其它未知错误，请您重新尝试",
+          confirmColor: "#4fafc9",
+          confirmText: "我知道了",
+          showCancel: false,
+        })
       }
     })
   },
